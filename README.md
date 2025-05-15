@@ -1,154 +1,77 @@
-# ⚖️ Smart Legal Case Tracker (SLCT)
-
-> 🎓 **Capstone Project – Oracle PL/SQL Database System**  
-> 🧑‍💻 Developed by: **Moise Ishimwe**  
-> 🧑‍🤝‍🧑 Group: TUES | 🆔 Student ID: 27657
+# ⚖️ Smart Legal Case Tracker (SLCT)  
+### AUCA Information Management Capstone Project — Group: TUES  
+**Student:** Moise Ishimwe (ID: 27657)  
 
 ---
 
-## 📌 Project Overview
-
-🔍 Legal firms often struggle to manage large amounts of sensitive case data, lawyer assignments, billing, and deadlines.  
-📉 Manual systems cause delays, errors, and lack of accountability.  
-
-💡 **Smart Legal Case Tracker (SLCT)** is a centralized legal case management system built with **Oracle 18c/21c** using **PL/SQL**. It automates operations, enforces security, restricts invalid manipulations, and provides full audit tracking.
+## 📌 Project Overview  
+Manual management of legal cases leads to inefficiency, missed deadlines, and billing errors in law firms.  
+**Smart Legal Case Tracker (SLCT)** is an Oracle PL/SQL database system designed to streamline case tracking, client communication, billing, and task management in small to medium law firms, ensuring accuracy, automation, and security.
 
 ---
 
-## 📚 Features at a Glance
+## 🗂️ Phase 1: Problem Definition & Requirements  
 
-✅ Dynamic database with full PL/SQL support  
-🔒 Secure data access with day-based and holiday-based triggers  
-📦 Reusable procedures and packages for modular programming  
-🕵️ Full auditing of insert/update/delete attempts  
-📈 Normalized schema with ERD and BPMN design  
-📊 OEM monitoring and real-world insertions for testing
+### Problem Statement  
+Law firms struggle with managing case deadlines, client communication, and billing manually. SLCT automates these processes to reduce errors and increase productivity.
 
----
+### Target Users  
+- **Lawyers:** Manage cases, deadlines, and client info  
+- **Administrative Staff:** Handle billing, scheduling, and client registration  
+- **Clients:** (Optional) Receive case updates  
 
-## 🧩 Problem Statement
+### Main Goals  
+- Automate deadline reminders  
+- Improve client communication via notifications  
+- Simplify invoice generation and payment tracking  
+- Ensure secure, scalable data storage  
 
-Legal offices face:
+### Key Entities & Attributes  
 
-- ⚠️ Poor tracking of deadlines and billing
-- ❌ Lack of automation for case monitoring
-- 🔐 No restrictions on who can alter sensitive data and when
-- 🕵️‍♂️ No way to track user activity or unauthorized actions
-
-**This system solves these issues through automation, restrictions, and logging.**
-
----
-
-## 🛠️ Technologies Used
-
-| Tool                  | Purpose                           |
-|-----------------------|-----------------------------------|
-| Oracle 18c / 21c      | Database engine                   |
-| PL/SQL                | Logic, Triggers, Procedures       |
-| Oracle SQL Developer  | DB Interface                      |
-| GitHub                | Version Control & Reporting       |
-| Draw.io / Lucidchart  | BPMN + ERD Diagrams               |
+| Entity  | Key Attributes                                  |
+|---------|------------------------------------------------|
+| Clients | Client_ID, Name, Contact_Info, Case_ID          |
+| Cases   | Case_ID, Type_of_Case, Status, Assigned_Lawyer, Deadline |
+| Lawyers | Lawyer_ID, Name, Specialization, Availability  |
+| Billing | Invoice_ID, Client_ID, Services_Rendered, Payment_Status, Amount |
+| Tasks   | Task_ID, Case_ID, Assigned_To, Due_Date, Status |
 
 ---
 
-## 📦 Database Overview
+## 📊 Phase 2: Business Process Modeling (BPM)  
 
-### 🧱 Main Entities
+- **Process Name:** Legal Case Tracking & Billing  
+- **Objective:** Automate case deadlines, client updates, billing  
+- **Key Roles:** Client, Lawyer, Admin Staff, System (Oracle DB)  
+- **Expected Benefits:** Fewer missed deadlines, efficient invoicing, improved decision-making  
 
-- 👤 `CLIENTS`: Stores client details  
-- ⚖️ `CASES`: Tracks legal cases  
-- 🧑‍💼 `LAWYERS`: Handles lawyer assignments  
-- 💵 `BILLING`: Manages case fees  
-- 📅 `TASKS`: Records daily activities & deadlines
-
-### 🔐 Special Tables
-
-- 📆 `HOLIDAYS`: Public holidays blocking data entry  
-- 🪪 `AUDIT_LOG`: Tracks user DML attempts and outcomes  
+> 📸 *Insert BPMN Diagram Screenshot Here*  
 
 ---
 
-## 🖼️ Diagrams
+## 🗃️ Phase 3: Logical Data Model (ER Diagram) & Normalization  
 
-### 🧠 ER Diagram  
-📸 *Insert ERD screenshot here*
+### Entities & Relationships  
 
-### 🔄 BPMN Business Flow  
-📸 *Insert BPMN workflow screenshot here*
+| Entity   | PK       | Key FKs                           | Notes                              |
+|----------|----------|---------------------------------|-----------------------------------|
+| Clients  | Client_ID|                                 | Contact_Info NOT NULL             |
+| Cases    | Case_ID  | Assigned_Lawyer → Lawyers.Lawyer_ID | Deadline NOT NULL                 |
+| Lawyers  | Lawyer_ID|                                 | Availability (VARCHAR or BOOLEAN) |
+| Billing  | Invoice_ID| Client_ID, Case_ID              | Payment_Status CHECK constraint  |
+| Tasks    | Task_ID  | Case_ID, Assigned_To → Lawyer_ID| Due_Date NOT NULL                |
 
----
+### Normalization  
+- All tables normalized to **3NF** ensuring data integrity and no redundancy.  
 
-## 🔧 SQL Implementation
-
-### 📁 File Structure
-
-
----
-
-## 🚀 Sample Outputs
-
-### 📋 Client Fetch Procedure  
-📸 *Screenshot of `fetch_clients_by_lawyer` output*
-
-### 🧱 Trigger Restriction Message  
-📸 *Screenshot showing weekday/holiday block message*
-
-### 🕵️ Audit Log Entry  
-📸 *Screenshot of `AUDIT_LOG` table after blocked action*
+> 📸 *Insert ER Diagram Screenshot Here*  
 
 ---
 
-## 🔒 Security & Auditing
+## 🏗️ Phase 4: Database Creation & Configuration  
 
-✔️ Only allows DML on weekends (Saturday/Sunday)  
-✔️ Uses a `HOLIDAYS` table to block special days  
-✔️ Logs every attempt into `AUDIT_LOG` with:
-- 👤 `USER_ID`
-- 🕒 `ACTION_TIME`
-- 📄 `OPERATION`
-- ✅ `STATUS` (allowed/denied)
-
----
-
-## 🧪 Testing & Validation
-
-🔍 All operations tested in:
-
-- ✅ Oracle SQL Developer  
-- ✅ SQL*Plus  
-
-🎯 Edge cases tested:
-- Weekday inserts (blocked ❌)  
-- Weekend inserts (allowed ✅)  
-- Holiday inserts (blocked ❌)  
-- Select queries and procedures (successful ✅)  
-
----
-
-## 📊 Monitoring with OEM
-
-📸 *Screenshot showing SLCT database in Oracle Enterprise Manager (OEM)*
-
----
-
-## 🔁 Future Enhancements
-
-✨ Web-based front-end using Flask or PHP  
-🔗 API integration with legal document systems  
-📱 Mobile dashboard for lawyers on the go  
-🔏 Role-based permissions for better control
-
----
-
-## 📑 References
-
-- Oracle PL/SQL Developer Guide  
-- Oracle Docs: [https://docs.oracle.com](https://docs.oracle.com)  
-- Real-case inspiration from Rwanda Judiciary Website  
-- Capstone project guide (AUCA IM Dept)
-
----
-
-> 🧠 “Law is reason, free from passion – but managing law requires precision, security, and automation. That’s what SLCT delivers.”  
-> – *Team TUES*
+### Key Actions  
+- Created Pluggable Database:  
+```sql
+CREATE PLUGGABLE DATABASE TUES_27657_SLCT ADMIN USER moise IDENTIFIED BY moise ROLES=(DBA);
 
