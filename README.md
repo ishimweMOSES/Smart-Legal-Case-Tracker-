@@ -1,6 +1,6 @@
-# Smart Legal Case Tracker – PL/SQL Oracle Project
+# ⚖️ Smart Legal Case Tracker – Oracle PL/SQL Project
 
-## 👤 Group Information
+## 👥 Group Info
 
 * **Group Name:** TUES
 * **Student Name:** Moise Ishimwe
@@ -8,104 +8,53 @@
 
 ---
 
-## 📌 Problem Statement
+## 🚨 Problem Statement
 
-Managing legal cases, deadlines, lawyer assignments, and billing in a law firm is often handled using scattered spreadsheets or manual paperwork. This leads to missed deadlines, billing errors, inefficient lawyer task distribution, and poor tracking of client engagements.
+Law firms traditionally rely on fragmented paper records and manual spreadsheets to manage legal cases, deadlines, billing, and staff tasks. This often results in missed deadlines, unbilled services, and poor accountability.
 
-### 📍 Context
+### 🧠 Project Purpose
 
-The system will be used by law firms to manage their cases, tasks, and billing processes effectively. It will help streamline operations and centralize data for clients, cases, tasks, billing, and lawyers.
+This project centralizes and automates the management of clients, legal cases, billing, tasks, and lawyer assignments in an Oracle PL/SQL environment.
 
-### 🎯 Target Users
+### 👤 Users
 
-* Legal Firm Administrators
+* Law Firm Admins
 * Lawyers
-* Billing/Accounts Staff
+* Finance/Billing Officers
 
-### ✅ Project Goals
+### 🎯 Objectives
 
-* Automate case and task management.
-* Track lawyer responsibilities.
-* Monitor deadlines and overdue cases.
-* Improve accuracy of billing processes.
-* Provide audit trails and enforce security policies.
-
----
-
-## 📊 Phase II – Business Process Modeling (MIS)
-
-### 📘 Scope
-
-Modeling the legal case handling process: client onboarding → case assignment → task delegation → billing → closure.
-
-### 🔑 Key Entities
-
-* Client
-* Lawyer
-* Case
-* Task
-* Billing System
-* Admin System
-
-### 🏊 Swimlane Diagram
-
-(*Placeholder for diagram, designed in draw\.io or Lucidchart*)
-
-### 📝 Explanation
-
-This model shows how a client initiates a case, which is then assigned to a lawyer. Tasks are delegated with deadlines, and billing is done after reviewing the services. This supports MIS by improving workflow tracking, reducing redundancy, and enabling data-driven decisions.
+* Streamline and digitize legal operations
+* Enable deadline and task tracking
+* Automate billing and reduce errors
+* Provide audit trails and enforce data security
 
 ---
 
-## 📐 Phase III – Logical Model Design
-
-### 🔸 Entities & Attributes
-
-* **CLIENT**(`client_id`, `name`, `email`, `phone`)
-* **LAWYER**(`lawyer_id`, `name`, `email`, `specialty`)
-* **CASE**(`case_id`, `title`, `description`, `client_id`, `lawyer_id`, `start_date`, `status`)
-* **TASK**(`task_id`, `case_id`, `description`, `assigned_to`, `due_date`, `status`)
-* **BILLING**(`billing_id`, `case_id`, `amount`, `billing_date`, `status`)
-
-### 🔗 Relationships
-
-* CLIENT → CASE (1\:M)
-* LAWYER → CASE (1\:M)
-* CASE → TASK (1\:M)
-* CASE → BILLING (1\:M)
-
-### ✅ Constraints
-
-* `NOT NULL` on all PKs and essential fields.
-* `CHECK` constraints for valid statuses (e.g., 'OPEN', 'CLOSED').
-* Foreign keys between CASE ↔ CLIENT, LAWYER and CASE ↔ TASK, BILLING.
-
-### 🧪 Normalization
-
-All tables are normalized to 3NF.
-
----
-
-## 🧱 Phase IV – Database Creation
+## 🏗️ Phase IV – Database Creation
 
 ```sql
-CREATE PLUGGABLE DATABASE tues_27657_moise_caseTracker_db ADMIN USER moise IDENTIFIED BY moise;
+-- Create pluggable database (run by sysdba)
+CREATE PLUGGABLE DATABASE TUES_MOISE_SMARTLEGALCASETRACKER_DB
+  ADMIN USER moise_admin IDENTIFIED BY moise
+  FILE_NAME_CONVERT=('pdbseed','TUES_MOISE_SMARTLEGALCASETRACKER_DB');
 ```
 
-### 🔧 Admin Setup
+### 🔐 Admin Credentials
 
-* Admin user: `moise`
-* Password: `moise`
+* **PDB Name:** `TUES_MOISE_SMARTLEGALCASETRACKER_DB`
+* **Admin User:** `moise_admin`
+* **Password:** `moise`
 
 ### 📸 Screenshot Placeholder
 
-*Add screenshot from Oracle Enterprise Manager showing database name.*
+*→ *Add screenshot from SQL Developer or Enterprise Manager showing your PDB opened.**
 
 ---
 
-## 🗃️ Phase V – Table Implementation & Data Insertion
+## 🧱 Phase V – Table Creation & Data Insertion
 
-### 📋 Table Creation
+### 🔨 Table Definitions
 
 ```sql
 CREATE TABLE client (
@@ -122,7 +71,7 @@ CREATE TABLE lawyer (
   specialty VARCHAR2(50)
 );
 
-CREATE TABLE case (
+CREATE TABLE legal_case (
   case_id NUMBER PRIMARY KEY,
   title VARCHAR2(100),
   description VARCHAR2(255),
@@ -134,7 +83,7 @@ CREATE TABLE case (
 
 CREATE TABLE task (
   task_id NUMBER PRIMARY KEY,
-  case_id NUMBER REFERENCES case(case_id),
+  case_id NUMBER REFERENCES legal_case(case_id),
   description VARCHAR2(255),
   assigned_to NUMBER REFERENCES lawyer(lawyer_id),
   due_date DATE,
@@ -143,7 +92,7 @@ CREATE TABLE task (
 
 CREATE TABLE billing (
   billing_id NUMBER PRIMARY KEY,
-  case_id NUMBER REFERENCES case(case_id),
+  case_id NUMBER REFERENCES legal_case(case_id),
   amount NUMBER(10,2),
   billing_date DATE,
   status VARCHAR2(20)
@@ -153,74 +102,92 @@ CREATE TABLE billing (
 ### 🧾 Sample Data Insertions
 
 ```sql
+-- Clients
 INSERT INTO client VALUES (1, 'Alice Smith', 'alice@email.com', '072100001');
 INSERT INTO client VALUES (2, 'Bob Johnson', 'bob@email.com', '072100002');
+INSERT INTO client VALUES (3, 'Cathy Brown', 'cathy@email.com', '072100003');
 
-INSERT INTO lawyer VALUES (1, 'John Doe', 'john@law.com', 'Criminal');
-INSERT INTO lawyer VALUES (2, 'Jane Lee', 'jane@law.com', 'Corporate');
+-- Lawyers
+INSERT INTO lawyer VALUES (1, 'John Doe', 'john@law.com', 'Civil');
+INSERT INTO lawyer VALUES (2, 'Emma Davis', 'emma@law.com', 'Criminal');
+INSERT INTO lawyer VALUES (3, 'Mark Smith', 'mark@law.com', 'Corporate');
 
-INSERT INTO case VALUES (1, 'Property Dispute', 'Land ownership conflict', 1, 1, SYSDATE, 'OPEN');
-INSERT INTO case VALUES (2, 'Contract Review', 'Corporate agreement review', 2, 2, SYSDATE, 'OPEN');
+-- Cases
+INSERT INTO legal_case VALUES (1, 'Divorce Filing', 'Mutual separation case', 1, 1, SYSDATE, 'OPEN');
+INSERT INTO legal_case VALUES (2, 'Fraud Defense', 'Client accused of fraud', 2, 2, SYSDATE, 'OPEN');
+INSERT INTO legal_case VALUES (3, 'Contract Review', 'Corporate contract audit', 3, 3, SYSDATE, 'OPEN');
 
-INSERT INTO task VALUES (1, 1, 'Review documents', 1, SYSDATE + 7, 'PENDING');
-INSERT INTO task VALUES (2, 2, 'Draft contract clauses', 2, SYSDATE + 10, 'PENDING');
+-- Tasks
+INSERT INTO task VALUES (1, 1, 'Collect financial docs', 1, SYSDATE + 5, 'PENDING');
+INSERT INTO task VALUES (2, 2, 'Draft court motion', 2, SYSDATE + 3, 'PENDING');
+INSERT INTO task VALUES (3, 3, 'Review clauses', 3, SYSDATE + 7, 'PENDING');
 
-INSERT INTO billing VALUES (1, 1, 500000, SYSDATE, 'UNPAID');
-INSERT INTO billing VALUES (2, 2, 750000, SYSDATE, 'UNPAID');
+-- Billing
+INSERT INTO billing VALUES (1, 1, 250000, SYSDATE, 'UNPAID');
+INSERT INTO billing VALUES (2, 2, 450000, SYSDATE, 'UNPAID');
+INSERT INTO billing VALUES (3, 3, 300000, SYSDATE, 'UNPAID');
 ```
+
+### 📸 Screenshot Placeholder
+
+*→ *Add screenshot after inserting data into each table.**
 
 ---
 
-## 🔁 Phase VI – Database Interaction and Transactions
+## 🔁 Phase VI – Procedures, Cursors, Packages
 
-### 📌 Procedures
+### 📌 Stored Procedure – Get Case Details
 
 ```sql
-CREATE OR REPLACE PROCEDURE get_case_details(p_case_id IN NUMBER) IS
-  v_title VARCHAR2(100);
-  v_status VARCHAR2(20);
+CREATE OR REPLACE PROCEDURE fetch_case_info(p_case_id NUMBER) IS
+  v_title legal_case.title%TYPE;
+  v_status legal_case.status%TYPE;
 BEGIN
-  SELECT title, status INTO v_title, v_status FROM case WHERE case_id = p_case_id;
-  DBMS_OUTPUT.PUT_LINE('Case: ' || v_title || ' | Status: ' || v_status);
+  SELECT title, status INTO v_title, v_status FROM legal_case WHERE case_id = p_case_id;
+  DBMS_OUTPUT.PUT_LINE('Title: ' || v_title || ' | Status: ' || v_status);
 EXCEPTION
   WHEN NO_DATA_FOUND THEN
-    DBMS_OUTPUT.PUT_LINE('Case not found.');
+    DBMS_OUTPUT.PUT_LINE('No case found.');
 END;
 ```
 
-### 📌 Cursor Example
+### 🔁 Cursor – List All Pending Tasks
 
 ```sql
 DECLARE
-  CURSOR c_tasks IS
+  CURSOR task_cursor IS
     SELECT task_id, description FROM task WHERE status = 'PENDING';
 BEGIN
-  FOR t IN c_tasks LOOP
-    DBMS_OUTPUT.PUT_LINE('Task ID: ' || t.task_id || ' - ' || t.description);
+  FOR task_rec IN task_cursor LOOP
+    DBMS_OUTPUT.PUT_LINE('Task #' || task_rec.task_id || ': ' || task_rec.description);
   END LOOP;
 END;
 ```
 
-### 📦 Package Example
+### 📦 Package – Mark Billing Paid
 
 ```sql
-CREATE OR REPLACE PACKAGE billing_pkg AS
-  PROCEDURE update_status(p_case_id NUMBER);
-END billing_pkg;
+CREATE OR REPLACE PACKAGE billing_ops AS
+  PROCEDURE mark_paid(p_case_id NUMBER);
+END billing_ops;
 
-CREATE OR REPLACE PACKAGE BODY billing_pkg AS
-  PROCEDURE update_status(p_case_id NUMBER) IS
+CREATE OR REPLACE PACKAGE BODY billing_ops AS
+  PROCEDURE mark_paid(p_case_id NUMBER) IS
   BEGIN
     UPDATE billing SET status = 'PAID' WHERE case_id = p_case_id;
   END;
-END billing_pkg;
+END billing_ops;
 ```
+
+### 📸 Screenshot Placeholder
+
+*→ *Add screenshot after executing procedures, cursors, or packages.**
 
 ---
 
-## 🔐 Phase VII – Advanced Programming and Auditing
+## 🔐 Phase VII – Advanced Programming & Auditing
 
-### 📌 Holiday Table
+### 📅 Holidays Table
 
 ```sql
 CREATE TABLE holidays (
@@ -231,46 +198,52 @@ CREATE TABLE holidays (
 INSERT INTO holidays VALUES (TO_DATE('2025-06-01', 'YYYY-MM-DD'), 'Independence Day');
 ```
 
-### 🚫 Trigger to Block Changes on Weekdays & Holidays
+### ⛔ Trigger – Restrict on Weekdays & Holidays
 
 ```sql
-CREATE OR REPLACE TRIGGER restrict_weekday_operations
-BEFORE INSERT OR UPDATE OR DELETE ON case
+CREATE OR REPLACE TRIGGER block_weekday_ops
+BEFORE INSERT OR UPDATE OR DELETE ON legal_case
 BEGIN
   IF TO_CHAR(SYSDATE, 'DY') IN ('MON','TUE','WED','THU','FRI') OR
      EXISTS (SELECT 1 FROM holidays WHERE holiday_date = TRUNC(SYSDATE)) THEN
-    RAISE_APPLICATION_ERROR(-20001, 'Operation not allowed on weekdays or holidays.');
+    RAISE_APPLICATION_ERROR(-20001, 'Operations blocked during weekdays or holidays.');
   END IF;
 END;
 ```
 
-### 📋 Audit Table
+### 🛡️ Audit Log
 
 ```sql
 CREATE TABLE audit_log (
   log_id NUMBER GENERATED ALWAYS AS IDENTITY,
   user_id VARCHAR2(50),
   action_time TIMESTAMP,
-  operation VARCHAR2(20),
+  operation VARCHAR2(30),
   status VARCHAR2(10)
 );
 ```
 
-### 🔧 Audit Trigger Example
+### 🔍 Audit Trigger
 
 ```sql
-CREATE OR REPLACE TRIGGER audit_case_change
-AFTER INSERT OR UPDATE OR DELETE ON case
+CREATE OR REPLACE TRIGGER log_case_change
+AFTER INSERT OR UPDATE OR DELETE ON legal_case
 BEGIN
   INSERT INTO audit_log(user_id, action_time, operation, status)
-  VALUES (USER, SYSTIMESTAMP, 'MODIFY_CASE', 'ALLOWED');
+  VALUES (USER, SYSTIMESTAMP, 'CASE_CHANGE', 'LOGGED');
 END;
 ```
 
+### 📸 Screenshot Placeholder
+
+*→ *Add screenshot of logs or restriction error message.**
+
 ---
 
-> ✅ **Next Step:** Proceed with Phase VIII – Documentation and GitHub Upload.
+## ✅ Final Notes
 
-> 📁 Add screenshots of your implementation results.
-> 🔐 Make sure all code files are committed to your GitHub repo.
+* 📂 Add your screenshots above for each phase
+* 💾 Ensure all SQL code is committed in GitHub
+* 📚 Make your README visually clear using sections, emojis, and code blocks
 
+> 🏁 **Next Phase:** Final Documentation and Demonstration
