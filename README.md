@@ -148,14 +148,39 @@ ALTER TABLE Billing ADD Transaction_Method VARCHAR2(50);
 
 ### Procedure: Get Case Details
 ```sql
-CREATE OR REPLACE PROCEDURE get_case_details (p_case_id IN NUMBER) IS
-  v_status VARCHAR2(50);
+CREATE OR REPLACE PROCEDURE get_multiple_case_details(p_case_ids IN case_id_table) IS
+  v_case_id         Cases.CASE_ID%TYPE;
+  v_type_of_case    Cases.TYPE_OF_CASE%TYPE;
+  v_status          Cases.STATUS%TYPE;
+  v_assigned_lawyer Cases.ASSIGNED_LAWYER%TYPE;
+  v_deadline        Cases.DEADLINE%TYPE;
 BEGIN
-  SELECT status INTO v_status FROM Cases WHERE Case_ID = p_case_id;
-  DBMS_OUTPUT.PUT_LINE('Case Status: ' || v_status);
+  FOR i IN 1 .. p_case_ids.COUNT LOOP
+    BEGIN
+      SELECT CASE_ID, TYPE_OF_CASE, STATUS, ASSIGNED_LAWYER, DEADLINE
+      INTO v_case_id, v_type_of_case, v_status, v_assigned_lawyer, v_deadline
+      FROM Cases
+      WHERE CASE_ID = p_case_ids(i);
+
+      DBMS_OUTPUT.PUT_LINE('Case ID         : ' || v_case_id);
+      DBMS_OUTPUT.PUT_LINE('Type of Case    : ' || v_type_of_case);
+      DBMS_OUTPUT.PUT_LINE('Status          : ' || v_status);
+      DBMS_OUTPUT.PUT_LINE('Assigned Lawyer : ' || v_assigned_lawyer);
+      DBMS_OUTPUT.PUT_LINE('Deadline        : ' || TO_CHAR(v_deadline, 'YYYY-MM-DD'));
+      DBMS_OUTPUT.PUT_LINE('-----------------------------------------');
+    EXCEPTION
+      WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Case ID ' || p_case_ids(i) || ' not found.');
+    END;
+  END LOOP;
 END;
+/
+
 ```
-🔍 *Displays status of a case using its ID.*
+🔍 *Displays status of multiple cases using its ID.*
+
+![Alt Text](https://github.com/ishimweMOSES/Smart-Legal-Case-Tracker-/blob/15cfc452eac6313bf91db225cf36090755ff5f3d/phase%206/procedure%20that%20bring%20multiple%20cases%20based%20on%20id.png)
+
 
 
 ### Function: Get Lawyer Name
