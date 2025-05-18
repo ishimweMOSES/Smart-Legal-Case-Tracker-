@@ -172,7 +172,7 @@ END;
 
 📸 _Output from Function_  
 
-![Alt Text](https://github.com/ishimweMOSES/Smart-Legal-Case-Tracker-/blob/3797c4208e148446eedb1b3dd0e8b17a656a396c/phase%206/calling%20procedure.png)
+![Alt Text](https://github.com/ishimweMOSES/Smart-Legal-Case-Tracker-/blob/275aed519101bc2dd697bd1a186c0fecaae7c2dc/phase%206/calling%20function.png)
 ---
 
 ## 🔹 7. Packages & Cursor Use
