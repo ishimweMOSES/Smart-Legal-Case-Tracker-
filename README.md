@@ -119,6 +119,9 @@ UPDATE Cases SET Status = 'Closed' WHERE Case_ID = 101;
 ```
 ♻️ *Changes the status of a specific case.*
 
+![Alt Text](https://github.com/ishimweMOSES/Smart-Legal-Case-Tracker-/blob/16b1787eabb7f958c20833f9bbcd78a0fdb6cb2d/phase%205/update%20case%20.png)
+
+
 ### Delete a Task
 ```sql
 DELETE FROM Tasks WHERE Task_ID = 2;
