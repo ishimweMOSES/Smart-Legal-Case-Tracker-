@@ -137,8 +137,10 @@ ALTER TABLE Billing ADD Transaction_Method VARCHAR2(50);
 ```
 ➕ *Adds a new column for transaction method.*
 
-📸 _Screenshot Placeholder_  
-**[Insert Screenshot: DML/DDL Executions]**
+📸 _Added column transaction_method_  
+
+![Alt Text](https://github.com/ishimweMOSES/Smart-Legal-Case-Tracker-/blob/505a831311daf4c5a8d6aab2899c5b82fa73243f/phase%206/transaction%20method%20altered.png)
+
 
 ---
 
