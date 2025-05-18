@@ -119,7 +119,7 @@ UPDATE Cases SET Status = 'Closed' WHERE Case_ID = 101;
 ```
 ♻️ *Changes the status of a specific case.*
 
-![Alt Text](https://github.com/ishimweMOSES/Smart-Legal-Case-Tracker-/blob/16b1787eabb7f958c20833f9bbcd78a0fdb6cb2d/phase%205/update%20case%20.png)
+![Alt Text](https://github.com/ishimweMOSES/Smart-Legal-Case-Tracker-/blob/96e14b759d7d1990c320e32de8d5daa9df3c27e9/phase%206/update%20case%20.png)
 
 
 ### Delete a Task
@@ -127,6 +127,9 @@ UPDATE Cases SET Status = 'Closed' WHERE Case_ID = 101;
 DELETE FROM Tasks WHERE Task_ID = 2;
 ```
 🗑️ *Deletes a specific task entry.*
+
+![Alt Text](https://github.com/ishimweMOSES/Smart-Legal-Case-Tracker-/blob/96e14b759d7d1990c320e32de8d5daa9df3c27e9/phase%206/delete%20from%20task%20%20using%20ID%20that's%20not%20there%20.png)
+
 
 ### Alter Table to Add Column
 ```sql
