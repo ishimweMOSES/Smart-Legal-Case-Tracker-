@@ -100,12 +100,14 @@ CREATE TABLE Clients (
 
 ### Sample Insert
 ```sql
-INSERT INTO Clients VALUES (1, 'John Doe', 'john@example.com');
+
+INSERT INTO clients (client_id, name, contact_info) VALUES (5, 'Ethan Hunt', 'ethan.hunt@example.com');
+
 ```
 📥 *Inserts a client into the table.*
 
-📸 _Screenshot Placeholder_  
-**[Insert Screenshot: Table Structures and Data Insertion]**
+📸 _Select to see the info _  
+![Alt Text](https://github.com/ishimweMOSES/Smart-Legal-Case-Tracker-/blob/ee0f223816914258e4b2283939a32e23420783f5/phase%205/select%20from%20clients.png)
 
 ---
 
