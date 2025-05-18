@@ -231,9 +231,9 @@ END case_pkg;
 ```
 ⚙️ *Implements the logic defined in the package spec.*
 
-📸 _Screenshot Placeholder_  
-**[Insert Screenshot: Package Execution Result]**
+📸 _Package Execution Result_  
 
+![Alt Text](https://github.com/ishimweMOSES/Smart-Legal-Case-Tracker-/blob/793939a0d2b1ef16b5a74f6f2ca8b0dcdd5a4e7f/phase%206/package%20test.png)
 ---
 
 ## 🔹 8. Triggers & Auditing
