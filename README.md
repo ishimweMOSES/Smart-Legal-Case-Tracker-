@@ -2,8 +2,8 @@
 
 ## 👤 Author
 **Moise Ishimwe**  
- 27657
-Bachelor of Information Management 
+Bachelor of Information Management  
+Adventist University of Central Africa (AUCA)
 
 ---
 
