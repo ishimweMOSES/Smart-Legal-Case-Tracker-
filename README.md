@@ -1,4 +1,3 @@
-
 # 📚 Smart Legal Case Tracker – Capstone Project Documentation
 
 ## 👤 Author
@@ -9,7 +8,7 @@ Adventist University of Central Africa (AUCA)
 ---
 
 ## 🧾 Project Description
-**Smart Legal Case Tracker** is a complete legal case management database system that helps law firms manage and track clients, lawyers, tasks, billing, and cases more effectively using Oracle SQL and PL/SQL.
+**Smart Legal Case Tracker** is a legal case management system that assists law firms in managing and tracking clients, lawyers, tasks, billing, and legal cases efficiently using Oracle SQL and PL/SQL.
 
 ---
 
@@ -23,110 +22,128 @@ Adventist University of Central Africa (AUCA)
 ---
 
 ## 📌 Table of Contents
-- [1. Problem Statement](#1-problem-statement)
-- [2. Entity Relationship Design](#2-entity-relationship-design)
-- [3. SQL Table Creation & Insertions](#3-sql-table-creation--insertions)
-- [4. DML/DDL Operations](#4-dmlddl-operations)
-- [5. Procedures & Functions](#5-procedures--functions)
-- [6. Packages & Cursor Use](#6-packages--cursor-use)
-- [7. Triggers & Auditing](#7-triggers--auditing)
-- [8. Testing & Evidence](#8-testing--evidence)
-- [9. Pluggable Database (PDB) Created](#9-pluggable-database-pdb-created)
-- [10. Summary](#10-summary)
-- [11. Recommendations](#11-recommendations)
-- [12. Contact](#12-contact)
-
+1. [Problem Statement](#-1-problem-statement)
+2. [Business Process Model (BPMN)](#-2-business-process-model-bpmn)
+3. [Entity Relationship Design (ERD)](#-3-entity-relationship-design-erd)
+4. [SQL Table Creation & Insertions](#-4-sql-table-creation--insertions)
+5. [DML/DDL Operations](#-5-dmlddl-operations)
+6. [Procedures & Functions](#-6-procedures--functions)
+7. [Packages & Cursor Use](#-7-packages--cursor-use)
+8. [Triggers & Auditing](#-8-triggers--auditing)
+9. [Testing & Evidence](#-9-testing--evidence)
+10. [PDB Environment Info](#-pdb-environment-info)
+11. [Summary](#-summary)
+12. [Recommendations](#-recommendations)
+13. [Contact](#-contact)
 ---
 
 ## 🔹 1. Problem Statement
 
-Manual tracking of legal cases is inefficient and error-prone. This project solves that by introducing a database that supports automation, restrictions, and user accountability through advanced SQL and PL/SQL features.
+Manual tracking of legal cases is inefficient and error-prone. This project introduces a robust database system that integrates automation, restrictions, and user accountability via advanced SQL/PLSQL programming.
 
-> 🎯 We aim to prevent unauthorized data changes, automate workflows, and maintain integrity through strict controls and logging.
+> 🎯 Our goal: Prevent unauthorized changes, automate tasks, and ensure data integrity through strong controls and logging.
 
 ---
 
-## 🔹 2. Entity Relationship Design
+## 🧪 1.5🔹 PDB Environment Info
 
-### Key Entities
-- 👤 **Clients**: Stores client info
-- ⚖️ **Cases**: Stores legal case details
-- 🧑‍💼 **Lawyers**: Manages lawyer data
-- 📋 **Tasks**: Tracks assigned legal tasks
-- 💰 **Billing**: Logs services and payments
+**Pluggable Database (PDB) Created:**  
+`TUES_MOISE_SMARTLEGALCASE`
+
+- ✅ Successfully created and opened
+- 👨‍💻 Admin User: `moise_admin`
+- 🔐 Password: `moise` *(masked in real submission)*
 
 📸 _Screenshot Placeholder_  
-**[Insert Screenshot: ERD Model]**
+**[Insert Screenshot: PDB Creation and Open Status]**
+
+---
+
+## 🔹 2. Business Process Model (BPMN)
+
+Business processes like case assignment, billing, and legal task management are modeled using BPMN for better understanding and clarity.
 
 📸 _Screenshot Placeholder_  
 **[Insert Screenshot: BPMN Diagram]**
 
 ---
 
-## 🔹 3. SQL Table Creation & Insertions
+## 🔹 3. Entity Relationship Design (ERD)
 
-Includes SQL statements for creating core entities and inserting sample data. This step is foundational for all database interactions and logic.
+### Key Entities
+- 👤 **Clients**: Stores client info
+- ⚖️ **Cases**: Contains case details
+- 🧑‍💼 **Lawyers**: Lawyer information
+- 📋 **Tasks**: Case-related tasks
+- 💰 **Billing**: Payment and charges
 
+📸 _Screenshot Placeholder_  
+**[Insert Screenshot: ER Diagram]**
+
+---
+
+## 🔹 4. SQL Table Creation & Insertions
+
+### Example: Clients Table
 ```sql
 CREATE TABLE Clients (
   Client_ID INT PRIMARY KEY,
   Name VARCHAR2(100),
   Contact_Info VARCHAR2(100) NOT NULL
 );
--- Adds the Clients table with relevant attributes
 ```
+🧾 *This creates the Clients table storing each client's details.*
 
+### Sample Insert
 ```sql
 INSERT INTO Clients VALUES (1, 'John Doe', 'john@example.com');
--- Example client inserted
 ```
+📥 *Inserts a client into the table.*
 
 📸 _Screenshot Placeholder_  
-**[Insert Screenshot: Tables + Insert Data Output]**
+**[Insert Screenshot: Table Structures and Data Insertion]**
 
 ---
 
-## 🔹 4. DML/DDL Operations
+## 🔹 5. DML/DDL Operations
 
-Demonstrates essential modification tasks (insert/update/delete) and structural changes.
-
+### Update a Case
 ```sql
 UPDATE Cases SET Status = 'Closed' WHERE Case_ID = 101;
--- Changes status of case to 'Closed'
 ```
+♻️ *Changes the status of a specific case.*
 
+### Delete a Task
 ```sql
 DELETE FROM Tasks WHERE Task_ID = 2;
--- Deletes task record with ID 2
 ```
+🗑️ *Deletes a specific task entry.*
 
+### Alter Table to Add Column
 ```sql
 ALTER TABLE Billing ADD Transaction_Method VARCHAR2(50);
--- Adds a payment method field to Billing table
 ```
+➕ *Adds a new column for transaction method.*
 
 📸 _Screenshot Placeholder_  
-**[Insert Screenshot: DML/DDL Success]**
+**[Insert Screenshot: DML/DDL Executions]**
 
 ---
 
-## 🔹 5. Procedures & Functions
+## 🔹 6. Procedures & Functions
 
-Reusable PL/SQL blocks for querying and displaying information.
-
+### Procedure: Get Case Details
 ```sql
 CREATE OR REPLACE PROCEDURE get_case_details (p_case_id IN NUMBER) IS
   v_status VARCHAR2(50);
 BEGIN
   SELECT status INTO v_status FROM Cases WHERE Case_ID = p_case_id;
   DBMS_OUTPUT.PUT_LINE('Case Status: ' || v_status);
-EXCEPTION
-  WHEN NO_DATA_FOUND THEN
-    DBMS_OUTPUT.PUT_LINE('No such case found.');
 END;
--- Procedure to display case status
 ```
+🔍 *Displays status of a case using its ID.*
 
+### Function: Get Lawyer Name
 ```sql
 CREATE OR REPLACE FUNCTION get_lawyer_name (p_lawyer_id IN NUMBER)
 RETURN VARCHAR2 IS
@@ -135,28 +152,27 @@ BEGIN
   SELECT Name INTO v_name FROM Lawyers WHERE Lawyer_ID = p_lawyer_id;
   RETURN v_name;
 END;
--- Returns lawyer's name by ID
 ```
+👨‍⚖️ *Returns lawyer’s name based on ID.*
 
 📸 _Screenshot Placeholder_  
-**[Insert Screenshot: Procedure/Function Output]**
+**[Insert Screenshot: Output from Procedure/Function]**
 
 ---
 
-## 🔹 6. Packages & Cursor Use
+## 🔹 7. Packages & Cursor Use
 
-Encapsulates related functions and procedures for modular use.
-
+### Package Specification
 ```sql
--- Package Specification
 CREATE OR REPLACE PACKAGE case_pkg IS
   PROCEDURE show_case_status(p_case_id NUMBER);
   FUNCTION get_lawyer_name(p_lawyer_id NUMBER) RETURN VARCHAR2;
 END case_pkg;
 ```
+📦 *Declares procedures/functions for reuse.*
 
+### Package Body
 ```sql
--- Package Body
 CREATE OR REPLACE PACKAGE BODY case_pkg IS
   PROCEDURE show_case_status(p_case_id NUMBER) IS
     v_status VARCHAR2(100);
@@ -172,16 +188,38 @@ CREATE OR REPLACE PACKAGE BODY case_pkg IS
     RETURN v_name;
   END;
 END case_pkg;
--- Package handles cases and lawyers conveniently
 ```
+⚙️ *Implements the logic defined in the package spec.*
 
 📸 _Screenshot Placeholder_  
-**[Insert Screenshot: Package Output]**
+**[Insert Screenshot: Package Execution Result]**
 
 ---
 
-## 🔹 7. Triggers & Auditing
+## 🔹 8. Triggers & Auditing
 
+### Holiday Table
+```sql
+CREATE TABLE Holidays (
+  holiday_date DATE PRIMARY KEY
+);
+```
+📅 *Holds official public holidays.*
+
+### Audit Log Table
+```sql
+CREATE TABLE audit_log (
+  log_id NUMBER GENERATED ALWAYS AS IDENTITY,
+  user_id VARCHAR2(100),
+  log_date DATE,
+  operation VARCHAR2(20),
+  table_name VARCHAR2(50),
+  status VARCHAR2(10)
+);
+```
+🧾 *Tracks who tried to do what and when.*
+
+### Trigger: Restrict DML on Holidays and Weekdays
 ```sql
 CREATE OR REPLACE TRIGGER trg_restrict_dml
 BEFORE INSERT OR UPDATE OR DELETE ON Cases
@@ -203,67 +241,59 @@ BEGIN
     VALUES (USER, SYSDATE, 'DML Attempt', 'Cases', 'Allowed');
   END IF;
 END;
--- Prevents modifications on weekdays and holidays
 ```
+🛡️ *Prevents changes to the Cases table during restricted periods.*
 
 📸 _Screenshot Placeholder_  
-**[Insert Screenshot: Trigger Compilation & Result]**
+**[Insert Screenshot: Trigger Log Output]**
 
 ---
 
-## 🔹 8. Testing & Evidence
+## 🔹 9. Testing & Evidence
 
+### Example: Trigger Test
 ```sql
-UPDATE Cases SET Status = 'Pending' WHERE Case_ID = 101;
--- Should trigger restriction logic
+UPDATE Cases SET Status = 'Active' WHERE Case_ID = 101;
 ```
+*Use this to test if the restriction trigger is working.*
 
+### View Audit Logs
 ```sql
 SELECT * FROM audit_log ORDER BY log_date DESC;
--- Displays audit log for all attempts
 ```
+*Displays all user operations tracked by the audit log.*
 
 📸 _Screenshot Placeholder_  
-**[Insert Screenshot: Audit Log Result]**
+**[Insert Screenshot: Testing Evidence]**
 
 ---
 
-## 🔹 9. Pluggable Database (PDB) Created
-
-📸 _Screenshot Placeholder_  
-**[Insert Screenshot: PDB Created Confirmation Window]**
-
-> Example: `TUES_MOISE_SMARTLEGALCASETRACKER_DB`
-
----
-
-## 🔹 10. Summary
+## ✅ Summary
 
 | Phase | Description | Status |
 |-------|-------------|--------|
 | Phase I | Problem Statement | ✅ Done |
-| Phase II | ERD & Modeling | ✅ Done |
-| Phase III | Logical Design | ✅ Done |
-| Phase IV | Table Creation & Insertion | ✅ Done |
+| Phase II | Business Process Modeling | ✅ Done |
+| Phase III | ERD & Logical Modeling | ✅ Done |
+| Phase IV | SQL Table & Insertion | ✅ Done |
 | Phase V | DML/DDL Operations | ✅ Done |
 | Phase VI | Procedures, Functions, Cursors, Packages | ✅ Done |
 | Phase VII | Triggers & Auditing | ✅ Done |
 
 ---
 
-## 🔹 11. Recommendations
-- 📅 Add more holiday entries each month to maintain restriction.
-- 🖥️ Future improvement can include a UI and report generation module.
-- 👥 Ensure roles and privileges are enforced for multi-user environments.
+## 💡 Recommendations
+- ✏️ Update public holidays monthly.
+- 🧑‍💻 Consider developing a UI using Python or PHP.
+- 🔐 Enhance multi-user access with strict roles and permissions.
 
 ---
 
-## 🔹 12. Contact
+## 📧 Contact
 
-For questions, demo or collaboration:  
 📩 ishimwemugemamoise@gmail.com  
-📞 0789291093 | 0721412296
+📞 0789291093 | 0721412296  
 
 ---
 
-_This README serves as comprehensive documentation of the Smart Legal Case Tracker database project. All critical SQL, PL/SQL logic, and business rules are implemented and tested as part of this work._
+🗓️ Generated on May 18, 2025
