@@ -48,7 +48,7 @@ Manual tracking of legal cases is inefficient and error-prone. This project intr
 ## 🧪 1.5🔹 PDB Environment Info
 
 **Pluggable Database (PDB) Created:**  
-`TUES_MOISE_SMARTLEGALCASE`
+`TUE_MOISE_SMARTLEGALCASE`
 
 - ✅ Successfully created and opened
 - 👨‍💻 Admin User: `moise_admin`
