@@ -54,8 +54,9 @@ Manual tracking of legal cases is inefficient and error-prone. This project intr
 - 👨‍💻 Admin User: `moise_admin`
 - 🔐 Password: `moise` *(masked in real submission)*
 
-📸 _Screenshot Placeholder_  
-**[Insert Screenshot: PDB Creation and Open Status]**
+📸 _PDB and Open Status_  
+![Alt Text](https://github.com/ishimweMOSES/Smart-Legal-Case-Tracker-/blob/fc4bc630376ff6e7cf79fc666bbc781401b0db2b/phase%204/pdb.png)
+
 
 ---
 
@@ -63,8 +64,10 @@ Manual tracking of legal cases is inefficient and error-prone. This project intr
 
 Business processes like case assignment, billing, and legal task management are modeled using BPMN for better understanding and clarity.
 
-📸 _Screenshot Placeholder_  
-**[Insert Screenshot: BPMN Diagram]**
+📸 _ BPMN Diagram_  
+
+![Alt Text](https://github.com/ishimweMOSES/Smart-Legal-Case-Tracker-/blob/94977f44f675c1903316fa7fc6342d41c7e75224/Phase%202/bpmn.png)
+
 
 ---
 
@@ -77,8 +80,9 @@ Business processes like case assignment, billing, and legal task management are 
 - 📋 **Tasks**: Case-related tasks
 - 💰 **Billing**: Payment and charges
 
-📸 _Screenshot Placeholder_  
-**[Insert Screenshot: ER Diagram]**
+📸 _ ER Diagram_  
+
+![Alt Text](https://github.com/ishimweMOSES/Smart-Legal-Case-Tracker-/blob/94977f44f675c1903316fa7fc6342d41c7e75224/Phase%203/ERD.png)
 
 ---
 
