@@ -1,249 +1,282 @@
-# ⚖️ Smart Legal Case Tracker – Oracle PL/SQL Project
+# 📚 Smart Legal Case Tracker – Capstone Project Documentation
 
-## 👥 Group Info
-
-* **Group Name:** TUES
-* **Student Name:** Moise Ishimwe
-* **Student ID:** 27657
-
----
-
-## 🚨 Problem Statement
-
-Law firms traditionally rely on fragmented paper records and manual spreadsheets to manage legal cases, deadlines, billing, and staff tasks. This often results in missed deadlines, unbilled services, and poor accountability.
-
-### 🧠 Project Purpose
-
-This project centralizes and automates the management of clients, legal cases, billing, tasks, and lawyer assignments in an Oracle PL/SQL environment.
-
-### 👤 Users
-
-* Law Firm Admins
-* Lawyers
-* Finance/Billing Officers
-
-### 🎯 Objectives
-
-* Streamline and digitize legal operations
-* Enable deadline and task tracking
-* Automate billing and reduce errors
-* Provide audit trails and enforce data security
+## 👤 Author
+**Moise Ishimwe**  
+Bachelor of Information Management  
+Adventist University of Central Africa (AUCA)
 
 ---
 
-## 🏗️ Phase IV – Database Creation
+## 🧾 Project Description
+**Smart Legal Case Tracker** is a legal case management system that assists law firms in managing and tracking clients, lawyers, tasks, billing, and legal cases efficiently using Oracle SQL and PL/SQL.
 
+---
+
+## ✅ Project Objectives
+- 📂 Design a relational database to manage legal information.
+- ✍️ Implement DML and DDL operations.
+- 🔁 Automate operations using stored procedures and functions.
+- 🔒 Secure the database using triggers and auditing.
+- 📊 Track user activity and enforce restrictions using PL/SQL.
+
+---
+
+## 📌 Table of Contents
+1. Problem Statement
+2. Business Process Model (BPMN)
+3. Entity Relationship Design (ERD)
+4. SQL Table Creation & Insertions
+5. DML/DDL Operations
+6. Procedures & Functions
+7. Packages & Cursor Use
+8. Triggers & Auditing
+9. Testing & Evidence
+
+---
+
+## 🔹 1. Problem Statement
+
+Manual tracking of legal cases is inefficient and error-prone. This project introduces a robust database system that integrates automation, restrictions, and user accountability via advanced SQL/PLSQL programming.
+
+> 🎯 Our goal: Prevent unauthorized changes, automate tasks, and ensure data integrity through strong controls and logging.
+
+---
+
+## 🔹 2. Business Process Model (BPMN)
+
+Business processes like case assignment, billing, and legal task management are modeled using BPMN for better understanding and clarity.
+
+📸 _Screenshot Placeholder_  
+**[Insert Screenshot: BPMN Diagram]**
+
+---
+
+## 🔹 3. Entity Relationship Design (ERD)
+
+### Key Entities
+- 👤 **Clients**: Stores client info
+- ⚖️ **Cases**: Contains case details
+- 🧑‍💼 **Lawyers**: Lawyer information
+- 📋 **Tasks**: Case-related tasks
+- 💰 **Billing**: Payment and charges
+
+📸 _Screenshot Placeholder_  
+**[Insert Screenshot: ER Diagram]**
+
+---
+
+## 🔹 4. SQL Table Creation & Insertions
+
+### Example: Clients Table
 ```sql
--- Create pluggable database (run by sysdba)
-CREATE PLUGGABLE DATABASE TUES_MOISE_SMARTLEGALCASETRACKER_DB
-  ADMIN USER moise_admin IDENTIFIED BY moise
-  FILE_NAME_CONVERT=('pdbseed','TUES_MOISE_SMARTLEGALCASETRACKER_DB');
-```
-
-### 🔐 Admin Credentials
-
-* **PDB Name:** `TUES_MOISE_SMARTLEGALCASETRACKER_DB`
-* **Admin User:** `moise_admin`
-* **Password:** `moise`
-
-### 📸 Screenshot Placeholder
-
-*→ *Add screenshot from SQL Developer or Enterprise Manager showing your PDB opened.**
-
----
-
-## 🧱 Phase V – Table Creation & Data Insertion
-
-### 🔨 Table Definitions
-
-```sql
-CREATE TABLE client (
-  client_id NUMBER PRIMARY KEY,
-  name VARCHAR2(100) NOT NULL,
-  email VARCHAR2(100),
-  phone VARCHAR2(20)
-);
-
-CREATE TABLE lawyer (
-  lawyer_id NUMBER PRIMARY KEY,
-  name VARCHAR2(100) NOT NULL,
-  email VARCHAR2(100),
-  specialty VARCHAR2(50)
-);
-
-CREATE TABLE legal_case (
-  case_id NUMBER PRIMARY KEY,
-  title VARCHAR2(100),
-  description VARCHAR2(255),
-  client_id NUMBER REFERENCES client(client_id),
-  lawyer_id NUMBER REFERENCES lawyer(lawyer_id),
-  start_date DATE,
-  status VARCHAR2(20) CHECK (status IN ('OPEN', 'CLOSED'))
-);
-
-CREATE TABLE task (
-  task_id NUMBER PRIMARY KEY,
-  case_id NUMBER REFERENCES legal_case(case_id),
-  description VARCHAR2(255),
-  assigned_to NUMBER REFERENCES lawyer(lawyer_id),
-  due_date DATE,
-  status VARCHAR2(20)
-);
-
-CREATE TABLE billing (
-  billing_id NUMBER PRIMARY KEY,
-  case_id NUMBER REFERENCES legal_case(case_id),
-  amount NUMBER(10,2),
-  billing_date DATE,
-  status VARCHAR2(20)
+CREATE TABLE Clients (
+  Client_ID INT PRIMARY KEY,
+  Name VARCHAR2(100),
+  Contact_Info VARCHAR2(100) NOT NULL
 );
 ```
+🧾 *This creates the Clients table storing each client's details.*
 
-### 🧾 Sample Data Insertions
-
+### Sample Insert
 ```sql
--- Clients
-INSERT INTO client VALUES (1, 'Alice Smith', 'alice@email.com', '072100001');
-INSERT INTO client VALUES (2, 'Bob Johnson', 'bob@email.com', '072100002');
-INSERT INTO client VALUES (3, 'Cathy Brown', 'cathy@email.com', '072100003');
-
--- Lawyers
-INSERT INTO lawyer VALUES (1, 'John Doe', 'john@law.com', 'Civil');
-INSERT INTO lawyer VALUES (2, 'Emma Davis', 'emma@law.com', 'Criminal');
-INSERT INTO lawyer VALUES (3, 'Mark Smith', 'mark@law.com', 'Corporate');
-
--- Cases
-INSERT INTO legal_case VALUES (1, 'Divorce Filing', 'Mutual separation case', 1, 1, SYSDATE, 'OPEN');
-INSERT INTO legal_case VALUES (2, 'Fraud Defense', 'Client accused of fraud', 2, 2, SYSDATE, 'OPEN');
-INSERT INTO legal_case VALUES (3, 'Contract Review', 'Corporate contract audit', 3, 3, SYSDATE, 'OPEN');
-
--- Tasks
-INSERT INTO task VALUES (1, 1, 'Collect financial docs', 1, SYSDATE + 5, 'PENDING');
-INSERT INTO task VALUES (2, 2, 'Draft court motion', 2, SYSDATE + 3, 'PENDING');
-INSERT INTO task VALUES (3, 3, 'Review clauses', 3, SYSDATE + 7, 'PENDING');
-
--- Billing
-INSERT INTO billing VALUES (1, 1, 250000, SYSDATE, 'UNPAID');
-INSERT INTO billing VALUES (2, 2, 450000, SYSDATE, 'UNPAID');
-INSERT INTO billing VALUES (3, 3, 300000, SYSDATE, 'UNPAID');
+INSERT INTO Clients VALUES (1, 'John Doe', 'john@example.com');
 ```
+📥 *Inserts a client into the table.*
 
-### 📸 Screenshot Placeholder
-
-*→ *Add screenshot after inserting data into each table.**
+📸 _Screenshot Placeholder_  
+**[Insert Screenshot: Table Structures and Data Insertion]**
 
 ---
 
-## 🔁 Phase VI – Procedures, Cursors, Packages
+## 🔹 5. DML/DDL Operations
 
-### 📌 Stored Procedure – Get Case Details
-
+### Update a Case
 ```sql
-CREATE OR REPLACE PROCEDURE fetch_case_info(p_case_id NUMBER) IS
-  v_title legal_case.title%TYPE;
-  v_status legal_case.status%TYPE;
+UPDATE Cases SET Status = 'Closed' WHERE Case_ID = 101;
+```
+♻️ *Changes the status of a specific case.*
+
+### Delete a Task
+```sql
+DELETE FROM Tasks WHERE Task_ID = 2;
+```
+🗑️ *Deletes a specific task entry.*
+
+### Alter Table to Add Column
+```sql
+ALTER TABLE Billing ADD Transaction_Method VARCHAR2(50);
+```
+➕ *Adds a new column for transaction method.*
+
+📸 _Screenshot Placeholder_  
+**[Insert Screenshot: DML/DDL Executions]**
+
+---
+
+## 🔹 6. Procedures & Functions
+
+### Procedure: Get Case Details
+```sql
+CREATE OR REPLACE PROCEDURE get_case_details (p_case_id IN NUMBER) IS
+  v_status VARCHAR2(50);
 BEGIN
-  SELECT title, status INTO v_title, v_status FROM legal_case WHERE case_id = p_case_id;
-  DBMS_OUTPUT.PUT_LINE('Title: ' || v_title || ' | Status: ' || v_status);
-EXCEPTION
-  WHEN NO_DATA_FOUND THEN
-    DBMS_OUTPUT.PUT_LINE('No case found.');
+  SELECT status INTO v_status FROM Cases WHERE Case_ID = p_case_id;
+  DBMS_OUTPUT.PUT_LINE('Case Status: ' || v_status);
 END;
 ```
+🔍 *Displays status of a case using its ID.*
 
-### 🔁 Cursor – List All Pending Tasks
-
+### Function: Get Lawyer Name
 ```sql
-DECLARE
-  CURSOR task_cursor IS
-    SELECT task_id, description FROM task WHERE status = 'PENDING';
+CREATE OR REPLACE FUNCTION get_lawyer_name (p_lawyer_id IN NUMBER)
+RETURN VARCHAR2 IS
+  v_name VARCHAR2(100);
 BEGIN
-  FOR task_rec IN task_cursor LOOP
-    DBMS_OUTPUT.PUT_LINE('Task #' || task_rec.task_id || ': ' || task_rec.description);
-  END LOOP;
+  SELECT Name INTO v_name FROM Lawyers WHERE Lawyer_ID = p_lawyer_id;
+  RETURN v_name;
 END;
 ```
+👨‍⚖️ *Returns lawyer’s name based on ID.*
 
-### 📦 Package – Mark Billing Paid
+📸 _Screenshot Placeholder_  
+**[Insert Screenshot: Output from Procedure/Function]**
 
+---
+
+## 🔹 7. Packages & Cursor Use
+
+### Package Specification
 ```sql
-CREATE OR REPLACE PACKAGE billing_ops AS
-  PROCEDURE mark_paid(p_case_id NUMBER);
-END billing_ops;
+CREATE OR REPLACE PACKAGE case_pkg IS
+  PROCEDURE show_case_status(p_case_id NUMBER);
+  FUNCTION get_lawyer_name(p_lawyer_id NUMBER) RETURN VARCHAR2;
+END case_pkg;
+```
+📦 *Declares procedures/functions for reuse.*
 
-CREATE OR REPLACE PACKAGE BODY billing_ops AS
-  PROCEDURE mark_paid(p_case_id NUMBER) IS
+### Package Body
+```sql
+CREATE OR REPLACE PACKAGE BODY case_pkg IS
+  PROCEDURE show_case_status(p_case_id NUMBER) IS
+    v_status VARCHAR2(100);
   BEGIN
-    UPDATE billing SET status = 'PAID' WHERE case_id = p_case_id;
+    SELECT status INTO v_status FROM Cases WHERE Case_ID = p_case_id;
+    DBMS_OUTPUT.PUT_LINE('Status: ' || v_status);
   END;
-END billing_ops;
+
+  FUNCTION get_lawyer_name(p_lawyer_id NUMBER) RETURN VARCHAR2 IS
+    v_name VARCHAR2(100);
+  BEGIN
+    SELECT name INTO v_name FROM Lawyers WHERE Lawyer_ID = p_lawyer_id;
+    RETURN v_name;
+  END;
+END case_pkg;
 ```
+⚙️ *Implements the logic defined in the package spec.*
 
-### 📸 Screenshot Placeholder
-
-*→ *Add screenshot after executing procedures, cursors, or packages.**
+📸 _Screenshot Placeholder_  
+**[Insert Screenshot: Package Execution Result]**
 
 ---
 
-## 🔐 Phase VII – Advanced Programming & Auditing
+## 🔹 8. Triggers & Auditing
 
-### 📅 Holidays Table
-
+### Holiday Table
 ```sql
-CREATE TABLE holidays (
-  holiday_date DATE PRIMARY KEY,
-  description VARCHAR2(100)
+CREATE TABLE Holidays (
+  holiday_date DATE PRIMARY KEY
 );
-
-INSERT INTO holidays VALUES (TO_DATE('2025-06-01', 'YYYY-MM-DD'), 'Independence Day');
 ```
+📅 *Holds official public holidays.*
 
-### ⛔ Trigger – Restrict on Weekdays & Holidays
-
-```sql
-CREATE OR REPLACE TRIGGER block_weekday_ops
-BEFORE INSERT OR UPDATE OR DELETE ON legal_case
-BEGIN
-  IF TO_CHAR(SYSDATE, 'DY') IN ('MON','TUE','WED','THU','FRI') OR
-     EXISTS (SELECT 1 FROM holidays WHERE holiday_date = TRUNC(SYSDATE)) THEN
-    RAISE_APPLICATION_ERROR(-20001, 'Operations blocked during weekdays or holidays.');
-  END IF;
-END;
-```
-
-### 🛡️ Audit Log
-
+### Audit Log Table
 ```sql
 CREATE TABLE audit_log (
   log_id NUMBER GENERATED ALWAYS AS IDENTITY,
-  user_id VARCHAR2(50),
-  action_time TIMESTAMP,
-  operation VARCHAR2(30),
+  user_id VARCHAR2(100),
+  log_date DATE,
+  operation VARCHAR2(20),
+  table_name VARCHAR2(50),
   status VARCHAR2(10)
 );
 ```
+🧾 *Tracks who tried to do what and when.*
 
-### 🔍 Audit Trigger
-
+### Trigger: Restrict DML on Holidays and Weekdays
 ```sql
-CREATE OR REPLACE TRIGGER log_case_change
-AFTER INSERT OR UPDATE OR DELETE ON legal_case
+CREATE OR REPLACE TRIGGER trg_restrict_dml
+BEFORE INSERT OR UPDATE OR DELETE ON Cases
+FOR EACH ROW
+DECLARE
+  v_day VARCHAR2(10);
+  v_today DATE := TRUNC(SYSDATE);
+  v_holiday_count NUMBER;
 BEGIN
-  INSERT INTO audit_log(user_id, action_time, operation, status)
-  VALUES (USER, SYSTIMESTAMP, 'CASE_CHANGE', 'LOGGED');
+  v_day := TO_CHAR(v_today, 'DY', 'NLS_DATE_LANGUAGE=ENGLISH');
+  SELECT COUNT(*) INTO v_holiday_count FROM Holidays WHERE holiday_date = v_today;
+
+  IF v_day IN ('MON','TUE','WED','THU','FRI') OR v_holiday_count > 0 THEN
+    INSERT INTO audit_log(user_id, log_date, operation, table_name, status)
+    VALUES (USER, SYSDATE, 'DML Attempt', 'Cases', 'Denied');
+    RAISE_APPLICATION_ERROR(-20001, 'DML operations are not allowed today.');
+  ELSE
+    INSERT INTO audit_log(user_id, log_date, operation, table_name, status)
+    VALUES (USER, SYSDATE, 'DML Attempt', 'Cases', 'Allowed');
+  END IF;
 END;
 ```
+🛡️ *Prevents changes to the Cases table during restricted periods.*
 
-### 📸 Screenshot Placeholder
-
-*→ *Add screenshot of logs or restriction error message.**
+📸 _Screenshot Placeholder_  
+**[Insert Screenshot: Trigger Log Output]**
 
 ---
 
-## ✅ Final Notes
+## 🔹 9. Testing & Evidence
 
-* 📂 Add your screenshots above for each phase
-* 💾 Ensure all SQL code is committed in GitHub
-* 📚 Make your README visually clear using sections, emojis, and code blocks
+### Example: Trigger Test
+```sql
+UPDATE Cases SET Status = 'Active' WHERE Case_ID = 101;
+```
+*Use this to test if the restriction trigger is working.*
 
-> 🏁 **Next Phase:** Final Documentation and Demonstration
+### View Audit Logs
+```sql
+SELECT * FROM audit_log ORDER BY log_date DESC;
+```
+*Displays all user operations tracked by the audit log.*
+
+📸 _Screenshot Placeholder_  
+**[Insert Screenshot: Testing Evidence]**
+
+---
+
+## ✅ Summary
+
+| Phase | Description | Status |
+|-------|-------------|--------|
+| Phase I | Problem Statement | ✅ Done |
+| Phase II | Business Process Modeling | ✅ Done |
+| Phase III | ERD & Logical Modeling | ✅ Done |
+| Phase IV | SQL Table & Insertion | ✅ Done |
+| Phase V | DML/DDL Operations | ✅ Done |
+| Phase VI | Procedures, Functions, Cursors, Packages | ✅ Done |
+| Phase VII | Triggers & Auditing | ✅ Done |
+
+---
+
+## 💡 Recommendations
+- ✏️ Update public holidays monthly.
+- 🧑‍💻 Consider developing a UI using Python or PHP.
+- 🔐 Enhance multi-user access with strict roles and permissions.
+
+---
+
+## 📧 Contact
+
+📩 ishimwemugemamoise@gmail.com  
+📞 0789291093 | 0721412296  
+
+---
+
+🗓️ Generated on May 18, 2025
