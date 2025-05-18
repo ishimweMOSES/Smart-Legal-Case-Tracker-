@@ -157,6 +157,7 @@ END;
 ```
 🔍 *Displays status of a case using its ID.*
 
+
 ### Function: Get Lawyer Name
 ```sql
 CREATE OR REPLACE FUNCTION get_lawyer_name (p_lawyer_id IN NUMBER)
@@ -169,9 +170,9 @@ END;
 ```
 👨‍⚖️ *Returns lawyer’s name based on ID.*
 
-📸 _Screenshot Placeholder_  
-**[Insert Screenshot: Output from Procedure/Function]**
+📸 _Output from Function_  
 
+![Alt Text](https://github.com/ishimweMOSES/Smart-Legal-Case-Tracker-/blob/3797c4208e148446eedb1b3dd0e8b17a656a396c/phase%206/calling%20procedure.png)
 ---
 
 ## 🔹 7. Packages & Cursor Use
