@@ -113,7 +113,7 @@ INSERT INTO clients (client_id, name, contact_info) VALUES (5, 'Ethan Hunt', 'et
 
 ## 🔹 5. DML/DDL Operations
 
-### Update a Case
+### 🔄 Update a Case
 ```sql
 UPDATE Cases SET Status = 'Closed' WHERE Case_ID = 101;
 ```
@@ -122,7 +122,7 @@ UPDATE Cases SET Status = 'Closed' WHERE Case_ID = 101;
 ![Alt Text](https://github.com/ishimweMOSES/Smart-Legal-Case-Tracker-/blob/96e14b759d7d1990c320e32de8d5daa9df3c27e9/phase%206/update%20case%20.png)
 
 
-### Delete a Task
+### ❌ Delete a Task
 ```sql
 DELETE FROM Tasks WHERE Task_ID = 2;
 ```
@@ -131,7 +131,7 @@ DELETE FROM Tasks WHERE Task_ID = 2;
 ![Alt Text](https://github.com/ishimweMOSES/Smart-Legal-Case-Tracker-/blob/96e14b759d7d1990c320e32de8d5daa9df3c27e9/phase%206/delete%20from%20task%20%20using%20ID%20that's%20not%20there%20.png)
 
 
-### Alter Table to Add Column
+### ➕ Alter Table to Add Column
 ```sql
 ALTER TABLE Billing ADD Transaction_Method VARCHAR2(50);
 ```
@@ -275,20 +275,28 @@ BEGIN
   SELECT COUNT(*) INTO v_holiday_count FROM Holidays WHERE holiday_date = v_today;
 
   IF v_day IN ('MON','TUE','WED','THU','FRI') OR v_holiday_count > 0 THEN
-    INSERT INTO audit_log(user_id, log_date, operation, table_name, status)
-    VALUES (USER, SYSDATE, 'DML Attempt', 'Cases', 'Denied');
+    INSERT INTO audit_log(audit_id, user_id, action_time, operation, table_name, status)
+    VALUES (audit_log_seq.NEXTVAL, USER, SYSTIMESTAMP, 'DML Attempt', 'Cases', 'Denied');
     RAISE_APPLICATION_ERROR(-20001, 'DML operations are not allowed today.');
   ELSE
-    INSERT INTO audit_log(user_id, log_date, operation, table_name, status)
-    VALUES (USER, SYSDATE, 'DML Attempt', 'Cases', 'Allowed');
+    INSERT INTO audit_log(audit_id, user_id, action_time, operation, table_name, status)
+    VALUES (audit_log_seq.NEXTVAL, USER, SYSTIMESTAMP, 'DML Attempt', 'Cases', 'Allowed');
   END IF;
 END;
+/
+
 ```
 🛡️ *Prevents changes to the Cases table during restricted periods.*
 
-📸 _Screenshot Placeholder_  
-**[Insert Screenshot: Trigger Log Output]**
+📸 _Trigger allowing to insert on cases during weekends _  
+ 
+![Alt Text](https://github.com/ishimweMOSES/Smart-Legal-Case-Tracker-/blob/3fbf4a3f57e78765b86709beee5c8fd4795c56a4/phase%207/trigger%20allowed%20to%20insert%20on%20weekends%20.png)
 
+![Alt Text](https://github.com/ishimweMOSES/Smart-Legal-Case-Tracker-/blob/3fbf4a3f57e78765b86709beee5c8fd4795c56a4/phase%207/this%20is%20the%20proof%20of%20trigger%20inserting%20into%20audit_log.png)
+
+📸 _Trigger not  allowing to insert on cases during weekdays _  
+
+![Alt Text](https://github.com/ishimweMOSES/Smart-Legal-Case-Tracker-/blob/3fbf4a3f57e78765b86709beee5c8fd4795c56a4/phase%207/trigger%20restricting%20to%20insert%20on%20monday.png)
 ---
 
 ## 🔹 9. Testing & Evidence
@@ -304,9 +312,6 @@ UPDATE Cases SET Status = 'Active' WHERE Case_ID = 101;
 SELECT * FROM audit_log ORDER BY log_date DESC;
 ```
 *Displays all user operations tracked by the audit log.*
-
-📸 _Screenshot Placeholder_  
-**[Insert Screenshot: Testing Evidence]**
 
 ---
 
@@ -326,7 +331,7 @@ SELECT * FROM audit_log ORDER BY log_date DESC;
 
 ## 💡 Recommendations
 - ✏️ Update public holidays monthly.
-- 🧑‍💻 Consider developing a UI using Python or PHP.
+- 🧑‍💻 DBA should Consider developing a UI using Python or PHP.
 - 🔐 Enhance multi-user access with strict roles and permissions.
 
 ---
@@ -337,5 +342,6 @@ SELECT * FROM audit_log ORDER BY log_date DESC;
 📞 0789291093 | 0721412296  
 
 ---
-
-🗓️ Generated on May 18, 2025
+🔗 _For collaboration, demo requests, or technical feedback, feel free to reach out!_
+> 🚀 _Smart Legal Case Tracker empowers law firms with digital control, accountability, and legal intelligence._
+🗓️ Ended on May 19, 2025
