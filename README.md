@@ -303,7 +303,7 @@ END;
 
 ### Example: Trigger Test
 ```sql
-UPDATE Cases SET Status = 'Active' WHERE Case_ID = 101;
+UPDATE Cases SET Status = 'Active' WHERE Case_ID = 998;
 ```
 *Use this to test if the restriction trigger is working.*
 
