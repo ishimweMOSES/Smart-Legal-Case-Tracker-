@@ -335,7 +335,7 @@ SELECT * FROM audit_log ORDER BY AUDIT_ID DESC;
 - 🔐 Enhance multi-user access with strict roles and permissions.
 
 ---
-## 🙏 Special Thanks Sir for this milestone , MAY GOD BLESS  you abundantly with wisdom , strength and grace  as you continue to guide and inspire others
+## 🙏  Special Thanks Sir for this milestone , May GOD bless  you abundantly with wisdom , strength and grace  as you continue to guide and inspire others
 
 ## 📧 Contact
 
