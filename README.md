@@ -249,13 +249,15 @@ CREATE TABLE Holidays (
 ### Audit Log Table
 ```sql
 CREATE TABLE audit_log (
-  log_id NUMBER GENERATED ALWAYS AS IDENTITY,
-  user_id VARCHAR2(100),
-  log_date DATE,
-  operation VARCHAR2(20),
-  table_name VARCHAR2(50),
-  status VARCHAR2(10)
+    audit_id     NUMBER        NOT NULL,
+    user_id      VARCHAR2(30),
+    action_time  TIMESTAMP(6),
+    operation    VARCHAR2(20),
+    table_name   VARCHAR2(30),
+    status       VARCHAR2(10),
+    CONSTRAINT pk_audit_log PRIMARY KEY (audit_id)
 );
+
 ```
 🧾 *Tracks who tried to do what and when.*
 
