@@ -309,7 +309,7 @@ UPDATE Cases SET Status = 'Active' WHERE Case_ID = 998;
 
 ### View Audit Logs
 ```sql
-SELECT * FROM audit_log ORDER BY log_date DESC;
+SELECT * FROM audit_log ORDER BY AUDIT_ID DESC;
 ```
 *Displays all user operations tracked by the audit log.*
 
