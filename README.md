@@ -344,4 +344,5 @@ SELECT * FROM audit_log ORDER BY log_date DESC;
 ---
 🔗 _For collaboration, demo requests, or technical feedback, feel free to reach out!_
 > 🚀 _Smart Legal Case Tracker empowers law firms with digital control, accountability, and legal intelligence._
-🗓️ Ended on May 19, 2025
+ 
+>🗓️ capstone Ended on May 19, 2025
