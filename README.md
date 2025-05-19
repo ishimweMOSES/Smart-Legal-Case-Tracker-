@@ -294,7 +294,7 @@ END;
 
 ![Alt Text](https://github.com/ishimweMOSES/Smart-Legal-Case-Tracker-/blob/3fbf4a3f57e78765b86709beee5c8fd4795c56a4/phase%207/this%20is%20the%20proof%20of%20trigger%20inserting%20into%20audit_log.png)
 
-📸 _Trigger not  allowing to insert on cases during weekdays _  
+📸 _Trigger denying to insert on cases during weekdays _  
 
 ![Alt Text](https://github.com/ishimweMOSES/Smart-Legal-Case-Tracker-/blob/3fbf4a3f57e78765b86709beee5c8fd4795c56a4/phase%207/trigger%20restricting%20to%20insert%20on%20monday.png)
 ---
