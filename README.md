@@ -183,21 +183,39 @@ END;
 
 
 
-### Function: Get Lawyer Name
+### Function: Get days remaining before deadline
 ```sql
-CREATE OR REPLACE FUNCTION get_lawyer_name (p_lawyer_id IN NUMBER)
-RETURN VARCHAR2 IS
-  v_name VARCHAR2(100);
+CREATE OR REPLACE FUNCTION days_until_deadline(p_case_id NUMBER)
+RETURN NUMBER
+IS
+  v_deadline DATE;
+  v_days_remaining NUMBER;
 BEGIN
-  SELECT Name INTO v_name FROM Lawyers WHERE Lawyer_ID = p_lawyer_id;
-  RETURN v_name;
+  -- Get the deadline for the given case ID
+  SELECT deadline INTO v_deadline
+  FROM cases
+  WHERE case_id = p_case_id;
+
+  -- Calculate days remaining
+  v_days_remaining := v_deadline - SYSDATE;
+
+  RETURN v_days_remaining;
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    DBMS_OUTPUT.PUT_LINE('No case found with the provided ID.');
+    RETURN NULL;
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+    RETURN NULL;
 END;
+/
+
 ```
-👨‍⚖️ *Returns lawyer’s name based on ID.*
+👨‍⚖️ *Returns days remaining for deadline.*
 
 📸 _Output from Function_  
 
-![Alt Text](https://github.com/ishimweMOSES/Smart-Legal-Case-Tracker-/blob/275aed519101bc2dd697bd1a186c0fecaae7c2dc/phase%206/calling%20function.png)
+![Alt Text](https://github.com/ishimweMOSES/Smart-Legal-Case-Tracker-/blob/c90727030acfbbd1b01a1a8730f9bf98a99b32ff/phase%206/days%20until%20deadline.png)
 ---
 
 ## 🔹 7. Packages & Cursor Use
